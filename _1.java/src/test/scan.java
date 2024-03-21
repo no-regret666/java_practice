@@ -9,6 +9,9 @@ public class scan {
         //3.接受数据
         System.out.println("请输入整数：");
         int i = sc.nextInt();
-        System.out.println(i);
+        System.out.println(i); //最后会换行
+        System.out.println(); //只换行
+        System.out.print(i); //与println一致，但是不会换行
+        System.out.printf("%d",i); //与C语言一致
     }
 }
