@@ -2,7 +2,7 @@ package array;
 import java.util.Scanner;
 import java.lang.Math;
 
-public class getmax {
+public class Demo1 {
     public static void main(String[] args) {
         int[] arr = new int[5]; //动态初始化：只明确元素个数，不明确具体数值
         //int[] arr = {1,2,3,4,5}; //静态初始化：手动指定元素个数，系统会根据元素个数计算数组长度
