@@ -1,9 +1,9 @@
-package Subject;
+package src.Subject;
 
 public class BoyFriendTest {
     public static void main(String[] args) {
         //创建男朋友的对象
-        BoyFriend bf = new BoyFriend();
+        Subject.BoyFriend bf = new Subject.BoyFriend();
 
         //赋值
         bf.setName("嘻嘻");

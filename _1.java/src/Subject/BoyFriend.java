@@ -33,6 +33,7 @@ public class BoyFriend {
         int age = 10; //局部变量
         System.out.println(age); //就近原则
         System.out.println(this.age); //this:区别成员变量和局部变量
+        //this：代表方法调用者的地址值
     }
 
     //public:公共的

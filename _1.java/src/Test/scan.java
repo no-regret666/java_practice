@@ -1,4 +1,4 @@
-package test;//1.导包,找到Scanner这个类在哪儿，书写在类定义的上面
+package src.Test;//1.导包,找到Scanner这个类在哪儿，书写在类定义的上面
 import java.util.Scanner;
 
 public class scan {
