@@ -1,5 +1,7 @@
 package Practice.staticdemo1;
 
+import java.util.ArrayList;
+
 public class StudentTest {
     public static void main(String[] args) {
         Student.teacherName = "阿伟老师";
@@ -23,5 +25,16 @@ public class StudentTest {
 
         s2.study();
         s2.show();
+
+        Student s3 = new Student("王五",25,"男");
+
+        ArrayList<Student> list = new ArrayList<Student>();
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
+
+        //调用工具类中的方法
+        int maxAgeStudent = StudentUtil.getMaxAgeStudent(list);
+        System.out.println(maxAgeStudent);
     }
 }
