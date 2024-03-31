@@ -1,4 +1,4 @@
-package Practice.staticdemo1;
+package Practice.staticdemo;
 
 public class Student {
     //属性：姓名，年龄，性别
