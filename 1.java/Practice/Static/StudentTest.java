@@ -1,4 +1,4 @@
-package Practice.staticdemo;
+package Practice.Static;
 
 import java.util.ArrayList;
 
