@@ -14,6 +14,9 @@ public class Test {
         t1.setName("线程1");
         t2.setName("线程2");
 
+        System.out.println(t1.getPriority());
+        System.out.println(t2.getPriority());
+
         //开启线程
         t1.start();
         t2.start();

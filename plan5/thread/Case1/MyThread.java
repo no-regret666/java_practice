@@ -6,6 +6,11 @@ public class MyThread extends Thread{
     public void run() {
         //书写线程要执行代码
         for(int i = 0;i < 5;i++){
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             System.out.println(getName() + " HelloWorld");
         }
     }
