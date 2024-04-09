@@ -1,4 +1,4 @@
-package Case2;
+package MyThread.Case2;
 
 public class MyRun implements Runnable{
     @Override

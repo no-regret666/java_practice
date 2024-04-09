@@ -1,4 +1,6 @@
-package Case1;
+package MyThread.Case1;
+
+import MyThread.Case1.MyThread;
 
 public class Test {
     public static void main(String[] args) {

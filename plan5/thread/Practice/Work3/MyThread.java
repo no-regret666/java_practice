@@ -1,24 +1,25 @@
-package Work2;
+package Practice.Work3;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MyThread extends Thread{
-    static int gift = 100;
     static Lock lock = new ReentrantLock();
+
+    static int num = 1;
 
     @Override
     public void run() {
         while(true){
             try {
                 lock.lock();
-                if(gift < 10){
+                if(num % 2 != 0){
+                    System.out.println(getName() + ":" + num);
+                }
+                if(num == 100){
                     break;
                 }
-                else{
-                    gift--;
-                    System.out.println(getName() + "送出了一份礼物!" + " 还剩" + gift + "份礼物");
-                }
+                num++;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             } finally {

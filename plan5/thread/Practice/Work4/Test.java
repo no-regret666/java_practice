@@ -1,4 +1,4 @@
-package Work4;
+package Practice.Work4;
 
 public class Test {
     public static void main(String[] args) {

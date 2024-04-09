@@ -1,4 +1,4 @@
-package Work1;
+package Practice.Work1;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

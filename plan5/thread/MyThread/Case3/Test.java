@@ -1,4 +1,4 @@
-package Case3;
+package MyThread.Case3;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;

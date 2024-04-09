@@ -1,4 +1,4 @@
-package Work4;
+package Practice.Work4;
 
 import java.util.Random;
 

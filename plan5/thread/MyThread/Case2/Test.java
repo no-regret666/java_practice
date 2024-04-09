@@ -1,4 +1,4 @@
-package Case2;
+package MyThread.Case2;
 
 public class Test {
     public static void main(String[] args) {

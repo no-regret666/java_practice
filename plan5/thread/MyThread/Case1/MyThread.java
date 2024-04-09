@@ -1,4 +1,4 @@
-package Case1;
+package MyThread.Case1;
 
 //有已经写好的Thread类，让自己定义的类直接继承
 public class MyThread extends Thread{
