@@ -2,7 +2,7 @@ package SchoolWork2;
 
 import java.util.Scanner;
 
-public class Work2 {
+public class Work3 {
     public static void main(String[] args) {
         double a,b,c;
         Scanner sc = new Scanner(System.in);

@@ -1,4 +1,4 @@
-package Practice.Abstract.Demo1;
+package Practice.Abstract;
 
 //抽象类的子类：要么重写抽象类中的所有抽象方法 ，要么是抽象类
 public class Student extends Person{

@@ -1,4 +1,4 @@
-package Practice.Abstract.Demo1;
+package Practice.Abstract;
 
 import Practice.Final.Student;
 
