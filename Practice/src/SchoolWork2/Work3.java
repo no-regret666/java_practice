@@ -15,9 +15,9 @@ public class Work3 {
         double r1,r2;
         r1 = (- b + bool) / 2 * a;
         r2 = (- b - bool) / 2 * a;
-        if(bool == 0)
-            System.out.println("The root is " + r1);
-        else if(bool > 0)
+        if(Math.abs(bool) < 1e-6)
+            System.out.printf("The root is:%.2f",r1);
+        else if(bool > 1e-6)
             System.out.println("The root are " + r1 + " and " + r2);
         else
             System.out.println("The equation has no real roots");
