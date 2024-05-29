@@ -1,11 +1,10 @@
-package Practice.Collection.Map;
+package Practice.Collection;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Demo1 {
+public class MapDemo {
     public static void main(String[] args) {
         List<Student> list = List.of(
                 new Student("Bob", 78),
