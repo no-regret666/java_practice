@@ -265,3 +265,202 @@ select count(*) from emp where username = '***' and password = '' or '1'='1';
 
   
 
+## `XML`映射文件
+
+### 规范
+
+- `XML`映射文件的名称与`Mapper`接口名称一致，并将`XML`映射文件和`Mapper`接口放置在相同包名下。（同包同名）
+- `XML`映射文件的`namespace`属性为`Mapper`接口全限定名一致。 
+- `XML`映射文件中`sql`语句中的id与`Mapper`接口中的方法名一致，并保持返回类型一致
+
+举例：
+
+![image-20240604171856377](/home/noregret/.config/Typora/typora-user-images/image-20240604171856377.png)
+
+
+
+## 动态`SQL`
+
+随着用户的输入或外部条件的变化而变化的`SQL`语句，我们称为*动态`SQL`*。
+
+#### `<if>`
+
+- 用于判断条件是否成立。使用`test`属性进行条件判断，如果条件为true，则拼接`SQL`。
+- 形式：`<if test = "name != null">...</if>`
+
+#### `<where>`
+
+`where`元素只会在子元素有内容的情况下才插入where子句。而且会自动去除子句的开头的`and`或`or`。
+
+#### `<set>`
+
+动态地在行首插入`set`关键字，并会删除额外的逗号。（用在`update`语句中）
+
+#### `<foreach>`
+
+- `SQL`语句
+
+  ```sql
+  delete from emp where id in (1,2,3);
+  ```
+
+- 接口方法
+
+  ```java
+  //批量删除
+  public void deleteByIds(List<Integer> ids);
+  ```
+
+- `XML`映射文件
+
+  ```xml
+  <delete id = "deleteByIds">
+  	delete from emp where id in
+  	<foreach collection="ids" item="id" separator="," open="(" close=")">
+  	 #{id}
+  	</foreach>
+  </delete>
+  ```
+
+  属性：
+
+  <img src="/home/noregret/.config/Typora/typora-user-images/image-20240604175935860.png" alt="image-20240604175935860" style="zoom:50%;" />
+
+#### `sql`片段
+
+- `<sql>`：定义可重用的`SQL`片段
+- `<include>`：通过属性refid，指定包含的`sql`片段
+
+
+
+# `Tomcat`
+
+web服务器软件
+
+服务器：安装了服务器软件的机器
+
+服务器软件：接收用户的请求，处理请求，做出相应
+
+web服务器软件：接收用户的请求，处理请求，做出相应
+
+- 在web服务器软件中，可以部署web项目，让用户通过浏览器来访问这些项目
+- web容器
+
+#### 配置
+
+部署项目的方式：直接将项目放到webapps目录下即可
+
+* /hello：项目的访问路径-->虚拟目录
+* 简化部署：将项目打成一个war包，再将war包放置到webapps目录下，war包会自动解压缩
+
+静态项目和动态项目
+
+* 目录结构：
+
+  java动态项目：`WEB-INF`
+
+  web.xml：该项目的核心配置文件
+
+  classes目录：放置字节码文件
+
+  lib目录：放置项目依赖的jar包
+
+
+
+# `Servlet`
+
+运行在服务器端的小程序
+
+- `Servlet`就是一个接口，定义了Java类被浏览器访问到（`tomcat`识别）的规则
+- 将来我们自定义一个类，实现`Servlet`接口，复写方法
+
+#### 执行原理
+
+1. 当服务器接收到客户端浏览器的请求后，会解析请求URL路径，获取访问的`Servlet`的资源路径
+2. 查找web.xml文件，是否有对应的`<url-pattern>`标签体内容
+3. 如果有，则在找到对应的`<servlet-class>`全类名
+4. tomcat会将字节码文件加载进内存，并且创建其对象
+5. 调用其方法
+
+#### `Servlet`中的生命周期
+
+1. 被创建：执行`init`方法，只执行一次
+
+   `Servlet`什么时候被创建？
+
+   默认情况下，第一次被访问时，`Servlet`被创建
+
+   可以配置执行`Servlet`的创建时机。
+
+   - 在`<Servlet>`标签下配置
+
+     1.  第一次被访问时，创建 
+
+        `<load-on-startup>`的值为负数
+
+     2. 在服务器启动时，创建
+
+        `<load-on-startup>`的值为0或正整数
+
+   `Servlet`的`init`方法，只执行一次，说明一个`Servlet`在内存中只存在一个对象，`Servlet`是单例的
+
+   ​	多个用户同时访问时，可能存在线程安全问题
+
+   ​	解决：尽量不要在`Servlet`中定义成员变量。即使定义了成员变量，也不要修改值
+
+2. 提供服务：执行`service`方法，执行多次
+
+   每次访问`Servlet`时，`service`方法都会被调用一次
+
+3. 被销毁：执行`destroy`方法，只执行一次
+
+   `Servlet`被销毁时执行。服务器关闭时，`Servlet`被销毁
+
+   只有服务器正常关闭时，才会执行`destroy`方法
+
+   `destroy`方法在`Servlet`被销毁之前执行，一般用于释放资源
+
+#### `Servlet3.0`
+
+好处：支持注解配置。可以不需要web.xml了
+
+步骤：
+
+1. 创建JavaEE项目，选择`Servlet`的版本3.0以上，可以不创建web.xml
+
+2. 定义一个类，实现`Servlet`接口
+
+3. 复写方法
+
+4. 在类上使用`@WebServlet`注解，进行配置
+
+   `@WebServlet("资源路径")`
+
+#### `Servlet`的体系结构
+
+`Servlet`  ----  接口
+
+​       |
+
+`GenericServlet`  ----  抽象类 
+
+​       |
+
+`HttpServlet`  ----  抽象类
+
+`GenericServlet`：将`Servlet`接口中其他的方法做了默认空实现，只将`service()`方法作为抽象
+
+`HttpServlet`：对http协议的一种封装，简化操作
+
+1. 定义类继承`HttpServlet`
+2. 复写`doGet`/`doPost`方法
+
+#### `Servlet`相关配置
+
+`urlpattern`：`Servlet`访问路径
+
+1. 一个`Servlet`可以定义多个访问路径:`@WebServlet({"/d4","/dd4","/ddd4"})`
+2. 路径定义规则
+   1. `/xxx`
+   2. `/xxx/xxx`
+   3. `*.do`
