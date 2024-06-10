@@ -125,15 +125,48 @@ create table 表名(
 
 ## 数据库连接池
 
-- 数据库连接池是个容器，负责分配、管理数据库连接
-- 它允许应用程序重复使用一个现有的数据库连接，而不是再建立一个
-- 释放空闲时间超过最大空闲时间的连接，来避免因为没有释放连接而引起的数据库连接遗漏
+1. 概念：其实就是一个容器（集合），存放数据库连接的容器                                                                                                      	   当系统初始化好后，容器被创建，容器中会申请一些连接对象，当用户来访问数据库时，从容器中获取连接对象，用户访问完之后，会将连接对象归还给容器。
 
-优势：
+2. 好处：
 
-- 资源重用
-- 提升系统响应速度
-- 避免数据库连接遗漏
+   1. 节约资源
+   2. 用户访问高效
+
+3. 实现：
+
+   标准接口：`DataSource`  `javax.sql`包下的
+
+   方法：
+
+   - 获取连接：`getConnection()`
+   - 归还连接：`Connection.close()`。如果连接对象`Connection`是从连接池中获取的，那么调用`Connection.close()`方法，则不会再关闭连接了，而是归还连接
+
+4. `Druid`：数据库连接池实现技术，由阿里巴巴提供
+
+   1. 步骤：
+
+      1. 导入`jar`包
+
+      2. 定义配置文件
+
+         - 是`Properties`形式的
+
+         - 可以叫任意名称，可以放在任意目录下
+
+      3. 加载配置文件  `Properties`
+
+      4. 获取数据库连接池对象：通过工厂类来获取   `DruidDataSourceFactory`
+
+      5. 获取连接：`getConnection`
+
+   2. 定义工具类
+
+      1. 定义一个类`JDBCUtils`
+      2. 提供静态代码块加载配置文件，初始化连接池对象
+      3. 提供方法
+         1. 获取连接方法：通过数据库连接池获取连接
+         2. 释放资源
+         3. 获取连接池的方法
 
 
 
@@ -464,3 +497,153 @@ web服务器软件：接收用户的请求，处理请求，做出相应
    1. `/xxx`
    2. `/xxx/xxx`
    3. `*.do`
+
+
+
+# `HTTP`
+
+概念：超文本传输协议
+
+> 传输协议：定义了客户端和服务器端通信时，发送数据的格式
+
+特点：
+
+1. 基于`TCP`/`IP`的高级协议
+2. 默认端口号80
+3. 基于请求/响应模型的：一次请求对应一次响应
+4. 无状态的：每次请求之间相互独立，不能交互数据
+
+历史版本：
+
+​	1.0：每一次请求响应都会建立新的连接
+
+​	1.1：复用连接
+
+### 请求消息数据格式
+
+请求行
+
+1. 请求方式  请求`url`  请求协议/版本
+
+   GET   `/login.html`   `HTTP`/1.1
+
+   请求方式：
+
+     `HTTP`协议有7种请求方式，常用的有2种
+
+   - `GET`：
+     1. 请求参数在请求行中，在`url`后
+     2. 请求的`url`长度有限制的
+     3. 不太安全
+   - `POST`：
+     1. 请求参数在请求体中
+     2. 请求的`url`长度没有限制的
+     3. 相对安全
+
+2. 请求头
+
+   请求头名称：请求头值
+
+   常见的请求头：
+
+   1. `User-Agent`：浏览器告诉服务器，我访问你使用的浏览器版本信息
+
+      可以在服务器端获取该头的信息，解决浏览器的兼容性问题
+
+   2. `Referer`：http://localhost/login.html
+
+      告诉服务器，我（当前请求）从哪里来？
+
+      作用：
+
+      1. 防盗链
+      2. 统计工作
+
+3. 请求空行
+
+   空行，就是用于分割POST请求的请求头和请求体的
+
+4. 请求体（正文）
+
+   封装POST请求消息的请求参数的
+
+### `Request`
+
+1. `request`对象和`reponse`对象的原理
+
+   1. `reponse`和`reponse`对象是由服务器创建的。我们来使用他们
+   2. `request`对象是来获取请求消息的，`reponse`对象是来设置相应消息的
+
+2. `request`对象继承体系结构
+
+   `ServletRequest`    --     接口
+
+​                    | 继承
+
+​       `HttpServletRequest`    --    接口
+
+​                    |实现
+
+​       `org.apache.catalina.connector.RequestFacade`    类（`tomcat`）
+
+3. `request`功能：
+
+   1. 获取请求消息数据
+
+      1. 获取请求行数据
+
+         `GET /day14/demo1?name=zhangsan HTTP/1.1`
+
+         方法：
+
+         ![image-20240606203640548](/home/noregret/.config/Typora/typora-user-images/image-20240606203640548.png)
+
+      2. 获取请求头数据
+
+         ![image-20240606205844957](/home/noregret/.config/Typora/typora-user-images/image-20240606205844957.png)
+
+      3. 获取请求体数据
+
+         ![image-20240606205924578](/home/noregret/.config/Typora/typora-user-images/image-20240606205924578.png)
+
+   2. 其他功能：
+
+      1. 获取请求参数通用方式：
+
+         ![image-20240606210206527](/home/noregret/.config/Typora/typora-user-images/image-20240606210206527.png)
+
+         ![image-20240606212512729](/home/noregret/.config/Typora/typora-user-images/image-20240606212512729.png)
+
+      2. 请求转发：一种在服务器内部的资源跳转方式
+
+         1. 步骤：
+
+            ![image-20240606213405869](/home/noregret/.config/Typora/typora-user-images/image-20240606213405869.png)
+
+         2. 特点：
+
+            1. 浏览器地址栏路径不发生变化
+            2. 只能转发到当前服务器内部资源中
+            3. 转发是一次请求
+
+      3. 共享数据：
+
+         域对象：一个有作用范围的对象，可以在范围内共享数据
+
+         `request`域：代表一次请求的范围，一般用于请求转发的多个资源中共享数据
+
+         方法：
+
+         <img src="/home/noregret/.config/Typora/typora-user-images/image-20240606214155637.png" alt="image-20240606214155637" style="zoom:50%;" />
+
+      4. 获取`ServletContext`：
+
+         `ServletContext getServletContext()`
+
+
+
+# `AJAX`
+
+1. 概念： 
+
+   
